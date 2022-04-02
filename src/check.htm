@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/moralis/dist/moralis.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script>
+      const serverUrl = "https://umkmosvmv4uc.usemoralis.com:2053/server";
+      const appId = "6rqJHUUZemjmnPxoG0ueJt6Ngnnabh3F9UAQ6hcd";
+      Moralis.start({ serverUrl, appId });
+    </script> -->
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="sign-up">
+      <div class="form-control">
+        <input type="text" class="username" />
+      </div>
+      <div class="form-control">
+        <input type="password" class="password" />
+      </div>
+      <button class="sign-up" id="sign-up" onclick="signup()">Sign up</button>
+    </div>
+
+    <div class="login">
+      <div class="form-control">
+        <input type="text" class="username_log" />
+      </div>
+      <div class="form-control">
+        <input type="text" class="password_log" />
+      </div>
+      <button class="login" id="login" onclick="login();">Login</button>
+    </div>
+
+    <button class="logout" id="logout" onclick="logout()">Log out</button>
+    <script>
+      Moralis.initialize("btuJtbsxjC0pQDXXStkAiHuZlTz45eZbVCf3A0Aq");
+      Moralis.serverURL = "https://bq0ryinxjqad.usemoralis.com:2053/server";
+
+      /* Moralis init code */
+
+      const init = async (req, res) => {
+        window.web3 = await Moralis.web3.enable();
+        const user = await Moralis.web3.current();
+        console.log("user");
+        console.log(user);
+      };
+
+      const signup = async function (email, password) {
+        var username = document.querySelector(".sign-up .username").value;
+        var password = document.querySelector(".sign-up .password").value;
+
+        const user = new Moralis.User();
+        user.set("username", username);
+        user.set("password", password);
+
+        try {
+          await user.signUp();
+          console.log("user");
+          console.log(user);
+        } catch (error) {
+          alert("Error: " + error.code + " " + error.message);
+        }
+      };
+
+      const login = async (email, password) => {
+        var username = document.querySelector(".login .username_log").value;
+        var password = document.querySelector(".login .password_log").value;
+
+        console.log({ username, password });
+        try {
+          const user = await Moralis.User.logIn(username, password);
+          console.log("user");
+          console.log(user);
+        } catch (error) {
+          alert("Error: " + error.code + " " + error.message);
+        }
+      };
+
+      const logout = async () => await Moralis.User.logOut();
+
+      // document.getElementById("signup").onclick = () =>
+      //   signup(
+      //     document.getElementById("email").value,
+      //     document.getElementById("password").value
+      //   );
+      // document.getElementById("login").onclick = () =>
+      //   login(
+      //     document.getElementById("email").value,
+      //     document.getElementById("password").value
+      //   );
+
+      // init();
+    </script>
+  </body>
+</html>
